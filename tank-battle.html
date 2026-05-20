@@ -408,12 +408,12 @@ function update() {
 
     if (moved) {
       player.dir = newDir;
-      const testX = player.x + DX[player.dir] * player.speed;
-      const testY = player.y + DY[player.dir] * player.speed;
-      const testTank = { ...player, x: testX, y: testY };
-      if (!tankCollides(testTank, walls)) {
-        player.x = testX;
-        player.y = testY;
+      const origX = player.x, origY = player.y;
+      player.x += DX[player.dir] * player.speed;
+      player.y += DY[player.dir] * player.speed;
+      if (tankCollides(player, walls)) {
+        player.x = origX;
+        player.y = origY;
       }
     }
 
@@ -452,13 +452,12 @@ function update() {
     }
 
     // Move
-    const testX = enemy.x + DX[enemy.dir] * enemy.speed;
-    const testY = enemy.y + DY[enemy.dir] * enemy.speed;
-    const testTank = { ...enemy, x: testX, y: testY };
-    if (!tankCollides(testTank, walls)) {
-      enemy.x = testX;
-      enemy.y = testY;
-    } else {
+    const origX = enemy.x, origY = enemy.y;
+    enemy.x += DX[enemy.dir] * enemy.speed;
+    enemy.y += DY[enemy.dir] * enemy.speed;
+    if (tankCollides(enemy, walls)) {
+      enemy.x = origX;
+      enemy.y = origY;
       enemy.dir = randDir();
       enemy.aiDirChange = rand(10, 40);
     }
