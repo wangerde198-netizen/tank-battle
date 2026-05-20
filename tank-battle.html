@@ -241,8 +241,8 @@ function tankCollides(tank, wallsToCheck) {
     const tRect = { x: t.x - t.size, y: t.y - t.size, w: t.size * 2, h: t.size * 2 };
     if (rectCollide(rect, tRect)) return true;
   }
-  // Check base
-  if (base) {
+  // Check base (only enemies can't pass through)
+  if (base && !tank.isPlayer) {
     if (rectCollide(rect, base)) return true;
   }
   return false;
@@ -278,7 +278,7 @@ function resetState() {
   spawnInterval = 120;
   buildMap(level);
   const startX = 9 * TILE + TILE / 2;
-  const startY = (ROWS - 1) * TILE + TILE / 2;
+  const startY = (ROWS - 2) * TILE + TILE / 2;
   player = createTank(startX, startY, DIR.UP, '#0f0', true);
   base = {
     x: 9 * TILE,
@@ -308,7 +308,7 @@ function nextLevel() {
   spawnInterval = Math.max(40, 120 - level * 10);
   buildMap(level);
   const startX = 9 * TILE + TILE / 2;
-  const startY = (ROWS - 1) * TILE + TILE / 2;
+  const startY = (ROWS - 2) * TILE + TILE / 2;
   player.x = startX;
   player.y = startY;
   player.dir = DIR.UP;
@@ -366,7 +366,7 @@ function handlePlayerDeath() {
   } else {
     // Respawn player
     const startX = 9 * TILE + TILE / 2;
-    const startY = (ROWS - 1) * TILE + TILE / 2;
+    const startY = (ROWS - 2) * TILE + TILE / 2;
     player.x = startX;
     player.y = startY;
     player.dir = DIR.UP;
@@ -737,7 +737,7 @@ function gameLoop() {
 // Initialize
 buildMap(1);
 const startX = 9 * TILE + TILE / 2;
-const startY = (ROWS - 1) * TILE + TILE / 2;
+const startY = (ROWS - 2) * TILE + TILE / 2;
 player = createTank(startX, startY, DIR.UP, '#0f0', true);
 base = {
   x: 9 * TILE,
